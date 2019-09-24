@@ -1,5 +1,5 @@
 {
-	"name": "InColorCz/gedmo",
+	"name": "noxzet/gedmo",
 	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
 	"description": "Gedmo Doctrine Extensions integration into Nette Framework using Kdyby/Doctrine",
 	"authors": [
@@ -16,7 +16,7 @@
 		"nette/di": "^2.4|^3.0",
 		"nette/utils": "^2.4|^3.0",
 		"kdyby/events": "~3.0|~2.1",
-		"kdyby/doctrine": "~3.0|~2.0|~1.0",
+		"kdyby/doctrine": "~4.0|~3.0|~2.0|~1.0",
 		"gedmo/doctrine-extensions": "^2.4"
 	},
 	"autoload": {
