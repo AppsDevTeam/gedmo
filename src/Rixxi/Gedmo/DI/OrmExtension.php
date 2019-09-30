@@ -99,6 +99,36 @@ class OrmExtension extends CompilerExtension implements Kdyby\Doctrine\DI\IEntit
 
 
 	/**
+	 * Default values are added to the extension config values retrieved using parent's getConfig
+	 * @param array|object $defaults Array or object with default values
+	 * @return array|object Config with default values applied if needed
+	 */
+	public function getConfig($defaults = NULL)
+	{
+		$config = parent::getConfig($defaults);
+
+		if (is_array($defaults) || is_object($defaults)) {
+			if (is_array($config)) {
+				foreach ($defaults as $key => $defaultValue) {
+					if (!array_key_exists($key, $config)) {
+						$config[$key] = $defaultValue;
+					}
+				}
+			}
+			else if (is_object($config)) {
+				foreach ($defaults as $key => $defaultValue) {
+					if (!isset($config->$key)) {
+						$config->$key = $defaultValue;
+					}
+				}
+			}
+		}
+
+		return $config;
+	}
+
+
+	/**
 	 * @return array
 	 */
 	private function getValidatedConfig()
