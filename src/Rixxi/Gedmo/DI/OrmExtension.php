@@ -68,7 +68,11 @@ class OrmExtension extends CompilerExtension implements Kdyby\Doctrine\DI\IEntit
 		$this->loadConfig('gedmo');
 
 		$builder = $this->getContainerBuilder();
-		$translatable = $builder->getDefinition($this->prefix('gedmo.translatable'));
+		if ($builder->hasDefinition($this->prefix('translatable'))) {
+			$translatable = $builder->getDefinition($this->prefix('translatable'));
+		} else {
+			$translatable = $builder->getDefinition($this->prefix('gedmo.translatable'));
+		}
 		$translatable->addSetup('setTranslatableLocale', array($config['translatableLocale']));
 		$translatable->addSetup('setDefaultLocale', array($config['defaultLocale']));
 
@@ -77,7 +81,11 @@ class OrmExtension extends CompilerExtension implements Kdyby\Doctrine\DI\IEntit
 				continue;
 			}
 
-			$builder->removeDefinition($this->prefix("gedmo.$annotation"));
+			if ($builder->hasDefinition($this->prefix($annotation))) {
+				$builder->removeDefinition($this->prefix($annotation));
+			} else {
+				$builder->removeDefinition($this->prefix("gedmo.$annotation"));
+			}
 		}
 	}
 
@@ -157,11 +165,24 @@ class OrmExtension extends CompilerExtension implements Kdyby\Doctrine\DI\IEntit
 	 */
 	private function loadConfig($name)
 	{
-		$this->compiler->parseServices(
-			$this->getContainerBuilder(),
-			$this->loadFromFile(__DIR__ . '/config/' . $name . '.neon'),
-			$this->prefix($name)
-		);
+		if (method_exists($this->compiler, 'loadDefinitionsFromConfig')) {
+			$config = $this->loadFromFile(__DIR__ . '/config/' . $name . '.neon');
+			Validators::assertField($config, 'services');
+			$services = [];
+			foreach ($config['services'] as $key => $value) {
+				$services[$this->prefix($key)] = $value;
+			}
+			$this->compiler->loadDefinitionsFromConfig(
+				$services
+			);
+		}
+		else {
+			$this->compiler->parseServices(
+				$this->getContainerBuilder(),
+				$this->loadFromFile(__DIR__ . '/config/' . $name . '.neon'),
+				$this->prefix($name)
+			);
+		}
 	}
 
 }
