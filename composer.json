@@ -1,5 +1,5 @@
 {
-	"name": "noxzet/gedmo",
+	"name": "adt/gedmo",
 	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
 	"description": "Gedmo Doctrine Extensions integration into Nette Framework using Kdyby/Doctrine",
 	"authors": [
