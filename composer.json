@@ -17,7 +17,7 @@
 		"nette/utils": "^2.4|^3.0",
 		"kdyby/events": "~3.0|~2.1",
 		"kdyby/doctrine": "~4.0|~3.0|~2.0|~1.0",
-		"gedmo/doctrine-extensions": "^2.4|^3.0"
+		"gedmo/doctrine-extensions": "^3.0"
 	},
 	"autoload": {
 		"psr-0": {
