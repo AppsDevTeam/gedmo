@@ -68,27 +68,15 @@ class OrmExtension extends CompilerExtension implements Kdyby\Doctrine\DI\IEntit
 		$this->loadConfig('gedmo');
 
 		$builder = $this->getContainerBuilder();
-		if ($builder->hasDefinition($this->prefix('translatable'))) {
-			$translatable = $builder->getDefinition($this->prefix('translatable'));
-		} else {
-			$translatable = $builder->getDefinition($this->prefix('gedmo.translatable'));
-		}
-		$translatable->addSetup('setTranslatableLocale', array($config['translatableLocale']));
-		$translatable->addSetup('setDefaultLocale', array($config['defaultLocale']));
-
+		
 		foreach ($this->annotations as $annotation) {
 			if ($config['all'] || $config[$annotation]) {
 				continue;
 			}
 
-			if ($builder->hasDefinition($this->prefix($annotation))) {
-				$builder->removeDefinition($this->prefix($annotation));
-			} else {
-				$builder->removeDefinition($this->prefix("gedmo.$annotation"));
-			}
+			$builder->removeDefinition($this->prefix($annotation));
 		}
 	}
-
 
 	public function beforeCompile()
 	{
@@ -102,6 +90,13 @@ class OrmExtension extends CompilerExtension implements Kdyby\Doctrine\DI\IEntit
 
 		if ($eventsExt === NULL) {
 			throw new Nette\Utils\AssertionException('Please register the required Kdyby\Doctrine\DI\OrmExtension to Compiler.');
+		}
+
+		$config = $this->getValidatedConfig();
+		$builder = $this->getContainerBuilder();
+		if ($translatable = $builder->getDefinition($this->prefix('translatable'))) {
+			$translatable->addSetup('setTranslatableLocale', array($config['translatableLocale']));
+			$translatable->addSetup('setDefaultLocale', array($config['defaultLocale']));
 		}
 	}
 
