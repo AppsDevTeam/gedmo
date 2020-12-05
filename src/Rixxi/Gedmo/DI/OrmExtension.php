@@ -95,7 +95,7 @@ class OrmExtension extends CompilerExtension implements Kdyby\Doctrine\DI\IEntit
 		$config = $this->getValidatedConfig();
 		$builder = $this->getContainerBuilder();
 		if ($builder->hasDefinition($this->prefix('translatable'))) {
-			$translatable = $builder->getDefinition($this->prefix('translatable')))
+			$translatable = $builder->getDefinition($this->prefix('translatable'));
 			$translatable->addSetup('setTranslatableLocale', array($config['translatableLocale']));
 			$translatable->addSetup('setDefaultLocale', array($config['defaultLocale']));
 		}
