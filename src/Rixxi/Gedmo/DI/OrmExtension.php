@@ -80,18 +80,6 @@ class OrmExtension extends CompilerExtension implements Kdyby\Doctrine\DI\IEntit
 
 	public function beforeCompile()
 	{
-		$eventsExt = NULL;
-		foreach ($this->compiler->getExtensions() as $extension) {
-			if ($extension instanceof Kdyby\Doctrine\DI\OrmExtension) {
-				$eventsExt = $extension;
-				break;
-			}
-		}
-
-		if ($eventsExt === NULL) {
-			throw new Nette\Utils\AssertionException('Please register the required Kdyby\Doctrine\DI\OrmExtension to Compiler.');
-		}
-
 		$config = $this->getValidatedConfig();
 		$builder = $this->getContainerBuilder();
 		if ($builder->hasDefinition($this->prefix('translatable'))) {
