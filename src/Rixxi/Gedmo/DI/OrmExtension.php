@@ -8,7 +8,7 @@ use Nette\Utils\Validators;
 use Nette;
 
 
-class OrmExtension extends CompilerExtension implements Kdyby\Doctrine\DI\IEntityProvider
+class OrmExtension extends CompilerExtension
 {
 
 	private $defaults = array(
@@ -37,29 +37,6 @@ class OrmExtension extends CompilerExtension implements Kdyby\Doctrine\DI\IEntit
 		'treeable',
 		'uploadable',
 	);
-
-
-	public function getEntityMappings()
-	{
-		$config = $this->getValidatedConfig();
-
-		$annotations = array(
-			'loggable' => 'Loggable',
-			'translatable' => 'Translatable',
-			'treeable' => 'Tree',
-		);
-
-		$path = realpath(__DIR__ . '/../../../../../../gedmo/doctrine-extensions/src');
-
-		$mappings = array();
-		foreach ($annotations as $annotation => $namespace) {
-			if ($config['all'] || $config[$annotation]) {
-				$mappings["Gedmo\\$namespace\\Entity"] = "$path/$namespace/Entity";
-			}
-		}
-
-		return $mappings;
-	}
 
 	public function loadConfiguration()
 	{
