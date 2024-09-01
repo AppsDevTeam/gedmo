@@ -14,7 +14,7 @@
 	},
 	"require": {
 		"nette/di": "^2.4|^3.0",
-		"nette/utils": "^2.4|^3.0",
+		"nette/utils": "^2.4|^3.0|^4.0",
 		"gedmo/doctrine-extensions": "^3.0"
 	},
 	"autoload": {
